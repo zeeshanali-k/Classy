@@ -1,4 +1,5 @@
 plugins {
+    kotlin("plugin.serialization") version "1.9.0"
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
@@ -33,6 +34,27 @@ kotlin {
                 implementation(compose.material)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+                
+
+                implementation("io.ktor:ktor-client-core:2.3.3")
+                implementation("io.ktor:ktor-client-content-negotiation:2.3.3")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0-RC")
+                //dependency injection
+                with(Deps.Koin) {
+                    api(core)
+                    api(compose)
+                    api(test)
+                }
+                //view model and flow etc
+                with(Deps.Moko) {
+                    api(mvvmCore)
+                    api(mvvmCompose)
+                    api(mvvmFlowCompose)
+                }
+                with(Deps.Voyager){
+                    implementation(navigator)
+                }
             }
         }
         val androidMain by getting {
@@ -40,6 +62,9 @@ kotlin {
                 api("androidx.activity:activity-compose:1.6.1")
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.9.0")
+
+                implementation("io.ktor:ktor-client-android:2.3.3")
+
             }
         }
         val iosX64Main by getting
@@ -50,13 +75,17 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+
+            dependencies {
+                implementation("io.ktor:ktor-client-darwin:2.3.3")
+            }
         }
     }
 }
 
 android {
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
-    namespace = "com.myapplication.common"
+    namespace = "com.devscion.classy"
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")

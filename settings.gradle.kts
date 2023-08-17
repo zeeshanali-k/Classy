@@ -8,6 +8,10 @@ pluginManagement {
         gradlePluginPortal()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         google()
+
+        maven {
+            url = uri("https://plugins.gradle.org/m2/")
+        }
     }
 
     plugins {
@@ -28,6 +32,10 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
+
+        maven {
+            url = uri("https://plugins.gradle.org/m2/")
+        }
         google()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
