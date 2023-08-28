@@ -22,6 +22,7 @@ kotlin {
         framework {
             baseName = "shared"
             isStatic = true
+            export("com.mohamedrejeb.calf:calf-ui:0.1.1")
         }
         extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
     }
@@ -34,7 +35,12 @@ kotlin {
                 implementation(compose.material)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
-                
+                // For Adaptive UI components
+                api("com.mohamedrejeb.calf:calf-ui:0.1.1")
+
+
+                //Typist for typing animation
+                api("tech.dev-scion:typist-cmp:1.0.0")
 
                 implementation("io.ktor:ktor-client-core:2.3.3")
                 implementation("io.ktor:ktor-client-content-negotiation:2.3.3")

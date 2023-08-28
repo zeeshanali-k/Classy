@@ -4,9 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -35,7 +32,7 @@ class SplashScreen : Screen {
         ) {
             Image(
                 painterResource("app_logo.jpg"),
-                contentDescription = "Account Circle",
+                contentDescription = "App Logo",
                 modifier = Modifier.size(200.dp)
             )
         }

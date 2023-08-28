@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,14 +28,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import com.devscion.classy.utils.ClassicInputField
 import com.devscion.classy.utils.Horizontal
+import com.devscion.classy.utils.MEDIUM_SPACING
 import com.devscion.classy.utils.RoundedCardBgBox
+import com.devscion.classy.utils.STANDARD_SPACING
 import com.devscion.classy.utils.Vertical
 import com.devscion.classy.utils.rememberImageBitmap
+import com.devscion.typistcmp.Typist
+import com.devscion.typistcmp.TypistSpeed
+import com.mohamedrejeb.calf.ui.progress.AdaptiveCircularProgressIndicator
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
@@ -109,7 +116,15 @@ class HomeScreen : Screen {
             ) {
 
                 if (isLoading) {
-                    CircularProgressIndicator()
+                    AdaptiveCircularProgressIndicator()
+                    STANDARD_SPACING.Vertical()
+                    Typist(
+                        "Generating Image...", textStyle = TextStyle(
+                            color = Color.Black,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        ), typistSpeed = TypistSpeed.FAST
+                    )
                 } else if (image != null) {
                     val imageBitmap = rememberImageBitmap(image)
                     if (imageBitmap != null) {
@@ -119,7 +134,6 @@ class HomeScreen : Screen {
                             contentScale = ContentScale.FillBounds,
                             modifier = Modifier.fillMaxWidth()
                                 .height(300.dp)
-
                         )
                     } else {
                         Text(
