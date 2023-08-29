@@ -1,8 +1,8 @@
 # Classy
 Text to image generation app using Compose Multiplatform with Clean Architecture.
 
-<img src="/media/ss1.png" width="250" height="420"> <img src="/media/ss2.png" width="250" height="420">
-<img src="/media/ss3.png" width="250" height="420">
+<img src="/media/ss1.png" width="250" height="520"> <img src="/media/ss2.png" width="250" height="520">
+<img src="/media/ss3.png" width="250" height="520">
 
 # Tech Stack
 
