@@ -21,6 +21,7 @@ class DiffusionImagesDataSourceImpl : DiffusionImagesDataSource {
                 install(ContentNegotiation) {
                     json()
                 }
+                //TODO: change this to your url
             }.get("http://YOU_URL/get_text2image?prompt=$prompt")
                 .body<GeneratedImage>()
                 .image
