@@ -33,3 +33,8 @@ You can either use the above backend and deploy it or you can directly use Huggi
 
 <b>Note:</b> HuggingFace's free inference API is initialised on demand so at first request you will receive invalid response and after a while, when system is initialised you need to try again to start getting the actual results.
 
+<a href="https://www.buymeacoffee.com/devscion"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=MohamedRejeb&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"></a>
+
+
+
+
