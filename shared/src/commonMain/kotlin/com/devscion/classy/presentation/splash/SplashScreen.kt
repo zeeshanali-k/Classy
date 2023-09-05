@@ -24,7 +24,7 @@ class SplashScreen : Screen {
         val navigator = LocalNavigator.current
         LaunchedEffect(Unit) {
             delay(1000)
-            navigator!!.push(HomeScreen())
+            navigator!!.replace(HomeScreen())
         }
         Box(
             Modifier.fillMaxSize(),
