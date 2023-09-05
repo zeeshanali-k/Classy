@@ -21,7 +21,7 @@ App is following the MVVM Clean Architecture approach with buildSrc for dependen
 
 <h5>Backend</h5>
 
-- App is currently using HuggingFace's free inference API Directly but you can also use the backend linked below. Instructions for changing to custom backend are given in data source in code
+- App is currently using HuggingFace's free inference API Directly but you can also use the backend linked below. Instructions for changing to custom backend are given in data source in code. Get your token from Hugging Face and replace in data layer to start using the app. (You don't need to add "Bearer" before it, it is automatically handeld by bearerAuth function of Ktor)
 - <a href="https://github.com/zeeshanali-k/t2i_backend">Django App</a> hosted on AWS EC2 (which further uses HuggingFace's free inference api for custom trained model)
 - <a href="https://huggingface.co/devscion/pakhistoricalplaces">HuggingFace Hosted Model</a>
 
