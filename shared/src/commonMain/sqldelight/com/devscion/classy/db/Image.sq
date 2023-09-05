@@ -1,0 +1,12 @@
+CREATE TABLE image (
+  id INTEGER PRIMARY KEY NOT NULL,
+  imageBase64 TEXT NOT NULL,
+  date TEXT NOT NULL,
+  prompt TEXT NOT NULL
+);
+
+insert:
+INSERT INTO image (imageBase64,date,prompt) VALUES ?;
+
+getAllImages:
+SELECT * FROM image;

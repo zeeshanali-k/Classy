@@ -4,6 +4,8 @@ plugins {
     kotlin("native.cocoapods")
     id("com.android.library")
     id("org.jetbrains.compose")
+
+    id("app.cash.sqldelight") version "2.0.0"
 }
 
 kotlin {
@@ -24,7 +26,8 @@ kotlin {
             isStatic = true
             export("com.mohamedrejeb.calf:calf-ui:0.1.1")
         }
-        extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
+//        extraSpecAttributes["resources"] =
+//            "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
     }
 
     sourceSets {
@@ -32,7 +35,7 @@ kotlin {
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
-                implementation(compose.material)
+                implementation(compose.material3)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
                 // For Adaptive UI components
@@ -58,9 +61,14 @@ kotlin {
                     api(mvvmCompose)
                     api(mvvmFlowCompose)
                 }
-                with(Deps.Voyager){
+                with(Deps.Voyager) {
                     implementation(navigator)
                 }
+
+
+//                implementation("app.cash.sqldelight:sqlite-driver:2.0.0")
+
+//                implementation("com.squareup.sqldelight:runtime:2.0.0")
             }
         }
         val androidMain by getting {
@@ -69,6 +77,7 @@ kotlin {
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.9.0")
 
+                implementation("app.cash.sqldelight:android-driver:2.0.0")
                 implementation("io.ktor:ktor-client-android:2.3.3")
 
             }
@@ -83,11 +92,22 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
 
             dependencies {
+                implementation("app.cash.sqldelight:native-driver:2.0.0")
                 implementation("io.ktor:ktor-client-darwin:2.3.3")
             }
         }
     }
 }
+
+
+sqldelight {
+    databases {
+        create("Classy") {
+            packageName.set("com.devscion.classy.db")
+        }
+    }
+}
+
 
 android {
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
@@ -99,7 +119,6 @@ android {
 
     defaultConfig {
         minSdk = (findProperty("android.minSdk") as String).toInt()
-        targetSdk = (findProperty("android.targetSdk") as String).toInt()
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

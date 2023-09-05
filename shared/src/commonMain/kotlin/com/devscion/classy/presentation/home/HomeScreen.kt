@@ -12,12 +12,19 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.List
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -27,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -34,9 +42,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import com.devscion.classy.presentation.images_history.ImagesHistoryBottomSheetContent
 import com.devscion.classy.utils.ClassicInputField
 import com.devscion.classy.utils.Horizontal
-import com.devscion.classy.utils.MEDIUM_SPACING
 import com.devscion.classy.utils.RoundedCardBgBox
 import com.devscion.classy.utils.STANDARD_SPACING
 import com.devscion.classy.utils.Vertical
@@ -44,13 +52,15 @@ import com.devscion.classy.utils.rememberImageBitmap
 import com.devscion.typistcmp.Typist
 import com.devscion.typistcmp.TypistSpeed
 import com.mohamedrejeb.calf.ui.progress.AdaptiveCircularProgressIndicator
+import com.mohamedrejeb.calf.ui.sheet.AdaptiveBottomSheet
+import com.mohamedrejeb.calf.ui.sheet.rememberAdaptiveSheetState
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
 
 class HomeScreen : Screen {
 
-    @OptIn(ExperimentalResourceApi::class)
+    @OptIn(ExperimentalResourceApi::class, ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val viewModel = koinInject<HomeViewModel>()
@@ -62,7 +72,7 @@ class HomeScreen : Screen {
 
         val rotation = animateFloatAsState(
             if (isLoading) 360f else 0f, animationSpec = if (isLoading) infiniteRepeatable(
-                animation = tween(1000, easing = LinearEasing),
+                animation = tween(500, easing = LinearEasing),
                 repeatMode = RepeatMode.Restart
             ) else tween(0, easing = EaseInBounce)
         )
@@ -70,10 +80,21 @@ class HomeScreen : Screen {
         val prompt = remember {
             mutableStateOf("")
         }
+
+
+        val sheetState = rememberAdaptiveSheetState(
+            skipPartiallyExpanded = true
+        )
+        val isSheetVisible = remember {
+            mutableStateOf(false)
+        }
+
         Column(
             Modifier.fillMaxSize()
                 .background(Color.White)
                 .padding(20.dp)
+                .windowInsetsPadding(WindowInsets.systemBars)
+                .windowInsetsPadding(WindowInsets.ime)
         ) {
 
             Row(
@@ -94,16 +115,29 @@ class HomeScreen : Screen {
                     )
                 }
 
-                10.dp.Horizontal()
+                STANDARD_SPACING.Horizontal()
                 Image(
                     painterResource("round_cameraswitch_24.xml"),
                     null,
                     modifier = Modifier
-                        .size(40.dp)
+                        .size(30.dp)
                         .rotate(rotation.value)
                         .clickable {
                             if (!isLoading && prompt.value.isNotEmpty())
                                 viewModel.generateImage(prompt.value)
+                        }
+                )
+
+                STANDARD_SPACING.Horizontal()
+                Image(
+                    Icons.Rounded.List,
+                    null,
+                    colorFilter = ColorFilter.tint(Color.Red),
+                    modifier = Modifier
+                        .size(30.dp)
+                        .clickable {
+                            viewModel.getImages()
+                            isSheetVisible.value = !isSheetVisible.value
                         }
                 )
             }
@@ -148,6 +182,18 @@ class HomeScreen : Screen {
                     )
                 }
             }
+
+            if (isSheetVisible.value) {
+                AdaptiveBottomSheet(adaptiveSheetState = sheetState,
+                    onDismissRequest = {
+                        isSheetVisible.value = false
+                    }) {
+                    ImagesHistoryBottomSheetContent(viewModel) {
+                        isSheetVisible.value = false
+                    }
+                }
+            }
+
         }
     }
 }

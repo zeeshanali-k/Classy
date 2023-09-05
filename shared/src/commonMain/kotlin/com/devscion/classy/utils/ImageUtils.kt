@@ -6,3 +6,5 @@ import androidx.compose.ui.graphics.ImageBitmap
 
 @Composable
 expect fun rememberImageBitmap(imageBytes : ByteArray) : ImageBitmap?
+
+expect fun String.isValidBase64Image(): Boolean
