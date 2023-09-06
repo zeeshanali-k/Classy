@@ -17,7 +17,7 @@ Adaptive Bottom Sheet
 <h3>
   Desktop
 </h3>
-<img src="/media/desktop_ss.png" width="250" height="650">
+<img src="/media/desktop_ss.png" width="250" height="500">
 
 # Tech Stack
 
