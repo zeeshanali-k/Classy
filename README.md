@@ -1,5 +1,5 @@
 # Classy
-Text to image generation Android and iOS app using Compose Multiplatform with Clean Architecture.
+Text to image generation Android, iOS and Desktop app using Compose Multiplatform with Clean Architecture.
 
 <img src="/media/ss1.png" width="250" height="520"> <img src="/media/ss2.png" width="250" height="520">
 <img src="/media/ss3.png" width="250" height="520"> 
