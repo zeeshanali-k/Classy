@@ -13,7 +13,7 @@ fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
         state = windowState,
-        title = "TimeZone"
+        title = "Classy"
     ) {
         App()
     }
