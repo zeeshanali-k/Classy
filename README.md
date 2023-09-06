@@ -2,7 +2,19 @@
 Text to image generation Android and iOS app using Compose Multiplatform with Clean Architecture.
 
 <img src="/media/ss1.png" width="250" height="520"> <img src="/media/ss2.png" width="250" height="520">
-<img src="/media/ss3.png" width="250" height="520"> <img src="/media/ss4.png" width="250" height="520">
+<img src="/media/ss3.png" width="250" height="520"> 
+
+<h3>
+  
+Adaptive Bottom Sheet
+</h3>
+
+<img src="/media/ss4.png" width="250" height="520">
+
+<h3>
+  Desktop
+</h3>
+<img src="/media/desktop_ss.png" width="250" height="650">
 
 # Tech Stack
 
