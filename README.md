@@ -8,8 +8,11 @@ Text to image generation Android and iOS app using Compose Multiplatform with Cl
   
 Adaptive Bottom Sheet
 </h3>
-
+<p>
+  
 <img src="/media/ss4.png" width="250" height="520">
+<img src="/media/ss5.png" width="250" height="520">
+</p>
 
 <h3>
   Desktop
