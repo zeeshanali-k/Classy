@@ -11,6 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import com.devscion.classy.ui.LARGE_PADDING
+import com.devscion.classy.ui.SMALL_PADDING
+import com.devscion.classy.ui.STANDARD_SPACING
 
 
 @Composable

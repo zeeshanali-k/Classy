@@ -1,3 +1,5 @@
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+
 plugins {
     kotlin("plugin.serialization") version "1.9.0"
     kotlin("multiplatform")
@@ -10,6 +12,12 @@ plugins {
 
 kotlin {
     androidTarget()
+
+    jvm("desktop") {
+        compilations.all {
+            kotlinOptions.jvmTarget = "17"
+        }
+    }
 
     iosX64()
     iosArm64()
@@ -24,13 +32,19 @@ kotlin {
         framework {
             baseName = "shared"
             isStatic = true
-            export("com.mohamedrejeb.calf:calf-ui:0.1.1")
+            export(Deps.Calf.ui)
         }
-//        extraSpecAttributes["resources"] =
-//            "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
     }
 
+
     sourceSets {
+        val desktopMain by getting {
+            dependencies {
+                implementation(Deps.SQLDelight.jvmDriver)
+                implementation(Deps.KtorClient.jvm)
+            }
+        }
+
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
@@ -39,16 +53,22 @@ kotlin {
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
                 // For Adaptive UI components
-                api("com.mohamedrejeb.calf:calf-ui:0.1.1")
-
+                with(Deps.Calf) {
+                    api(ui)
+                }
 
                 //Typist for typing animation
-                api("tech.dev-scion:typist-cmp:1.0.0")
+                api(Deps.TYPIST_CMP)
 
-                implementation("io.ktor:ktor-client-core:2.3.3")
-                implementation("io.ktor:ktor-client-content-negotiation:2.3.3")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.3")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0-RC")
+                //Ktor Client for http communication
+                with(Deps.KtorClient) {
+                    implementation(core)
+                    implementation(contentNegotiation)
+                    implementation(serializationKotlinxJson)
+                }
+                implementation(Deps.KOTLINX_SERIALISATION_JSON)
+
+
                 //dependency injection
                 with(Deps.Koin) {
                     api(core)
@@ -65,20 +85,16 @@ kotlin {
                     implementation(navigator)
                 }
 
-
-//                implementation("app.cash.sqldelight:sqlite-driver:2.0.0")
-
-//                implementation("com.squareup.sqldelight:runtime:2.0.0")
             }
         }
         val androidMain by getting {
             dependencies {
-                api("androidx.activity:activity-compose:1.6.1")
+                api("androidx.activity:activity-compose:1.7.2")
                 api("androidx.appcompat:appcompat:1.6.1")
-                api("androidx.core:core-ktx:1.9.0")
+                api("androidx.core:core-ktx:1.10.1")
 
-                implementation("app.cash.sqldelight:android-driver:2.0.0")
-                implementation("io.ktor:ktor-client-android:2.3.3")
+                implementation(Deps.SQLDelight.androidDriver)
+                implementation(Deps.KtorClient.android)
 
             }
         }
@@ -92,8 +108,8 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
 
             dependencies {
-                implementation("app.cash.sqldelight:native-driver:2.0.0")
-                implementation("io.ktor:ktor-client-darwin:2.3.3")
+                implementation(Deps.SQLDelight.nativeDriver)
+                implementation(Deps.KtorClient.native)
             }
         }
     }
@@ -108,6 +124,18 @@ sqldelight {
     }
 }
 
+compose.desktop {
+    application {
+        mainClass = "MainKt"
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "Classy"
+            macOS {
+                bundleID = "com.devscion.classy"
+            }
+        }
+    }
+}
 
 android {
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
@@ -121,8 +149,8 @@ android {
         minSdk = (findProperty("android.minSdk") as String).toInt()
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlin {
         jvmToolchain(11)

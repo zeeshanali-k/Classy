@@ -1,4 +1,4 @@
-package com.devscion.classy.utils
+package com.devscion.classy.ui
 
 import androidx.compose.ui.unit.dp
 

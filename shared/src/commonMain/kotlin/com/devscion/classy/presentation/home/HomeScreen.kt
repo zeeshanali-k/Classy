@@ -43,10 +43,10 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import com.devscion.classy.presentation.images_history.ImagesHistoryBottomSheetContent
-import com.devscion.classy.utils.ClassicInputField
+import com.devscion.classy.ui.ClassicInputField
 import com.devscion.classy.utils.Horizontal
 import com.devscion.classy.utils.RoundedCardBgBox
-import com.devscion.classy.utils.STANDARD_SPACING
+import com.devscion.classy.ui.STANDARD_SPACING
 import com.devscion.classy.utils.Vertical
 import com.devscion.classy.utils.rememberImageBitmap
 import com.devscion.typistcmp.Typist

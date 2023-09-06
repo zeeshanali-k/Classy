@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.devscion.classy.utils.MEDIUM_PADDING
+import com.devscion.classy.ui.MEDIUM_PADDING
 import com.devscion.classy.utils.rememberImageBitmap
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource

@@ -32,9 +32,9 @@ import com.devscion.classy.db.Image
 import com.devscion.classy.presentation.home.HomeViewModel
 import com.devscion.classy.presentation.images_history.components.ImageDetailsDialog
 import com.devscion.classy.presentation.images_history.components.ImageListItem
-import com.devscion.classy.utils.STANDARD_ICON_SIZE
-import com.devscion.classy.utils.STANDARD_PADDING
-import com.devscion.classy.utils.STANDARD_SPACING
+import com.devscion.classy.ui.STANDARD_ICON_SIZE
+import com.devscion.classy.ui.STANDARD_PADDING
+import com.devscion.classy.ui.STANDARD_SPACING
 import com.devscion.classy.utils.Vertical
 import com.mohamedrejeb.calf.ui.progress.AdaptiveCircularProgressIndicator
 

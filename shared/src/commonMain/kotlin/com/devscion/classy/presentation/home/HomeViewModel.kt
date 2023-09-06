@@ -28,7 +28,7 @@ class HomeViewModel constructor(
 
     @OptIn(ExperimentalEncodingApi::class)
     fun generateImage(prompt: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _homeStateState.value = _homeStateState.value.copy(isLoading = true)
             diffusionImagesDataSource.generateImage(prompt).collectLatest {
                 if (it is DataResponse.Success) {
