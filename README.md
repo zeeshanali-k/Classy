@@ -23,7 +23,7 @@ Adaptive Bottom Sheet
 
 <h5>As for Compose Multiplatform following libraries are used:</h5>
 
-- <a href="https://github.com/icerockdev/moko-mvvm">Moko</a> for ViewModels and Flows
+- <a href="https://github.com/icerockdev/moko-mvvm">Moko</a> for ViewModels
 - <a href="https://github.com/adrielcafe/voyager">Voyager</a> for navigation
 - <a href="https://ktor.io/docs/getting-started-ktor-client.html">Ktor</a> for HTTP communication
 - <a href="https://github.com/cashapp/sqldelight">Sql Delight</a> as local database for Images History
