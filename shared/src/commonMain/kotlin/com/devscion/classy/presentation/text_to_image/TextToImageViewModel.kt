@@ -1,4 +1,4 @@
-package com.devscion.classy.presentation.home
+package com.devscion.classy.presentation.text_to_image
 
 import com.devscion.classy.domain.datasource.DiffusionImagesDataSource
 import com.devscion.classy.domain.model.DataResponse
@@ -14,13 +14,13 @@ import kotlinx.coroutines.launch
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
-class HomeViewModel constructor(
+class TextToImageViewModel constructor(
     private val diffusionImagesDataSource: DiffusionImagesDataSource
 ) : ViewModel() {
 
     private val TAG = "HomeViewModel"
 
-    private val _homeStateState = MutableStateFlow(HomeState())
+    private val _homeStateState = MutableStateFlow(TextToImageState())
     val homeStateState = _homeStateState.asStateFlow()
 
     private val _imagesStateState = MutableStateFlow(ImagesHistoryState())

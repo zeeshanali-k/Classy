@@ -8,3 +8,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 expect fun rememberImageBitmap(imageBytes : ByteArray) : ImageBitmap?
 
 expect fun String.isValidBase64Image(): Boolean
+
+expect fun convertToByteArray(image : PlatformStorableImage) : ByteArray?
+
+expect fun ByteArray.toImageBitmap(): ImageBitmap

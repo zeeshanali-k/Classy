@@ -8,6 +8,9 @@ import org.jetbrains.skia.Bitmap
 import org.jetbrains.skia.Image
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.toComposeImageBitmap
+import org.jetbrains.skia.Image
 
 @Composable
 actual fun rememberImageBitmap(imageBytes: ByteArray): ImageBitmap? {
@@ -34,3 +37,7 @@ actual fun String.isValidBase64Image(): Boolean {
         false
     }
 }
+
+
+actual fun ByteArray.toImageBitmap(): ImageBitmap =
+    Image.makeFromEncoded(this).toComposeImageBitmap()

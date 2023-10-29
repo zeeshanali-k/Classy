@@ -42,6 +42,8 @@ kotlin {
             dependencies {
                 implementation(Deps.SQLDelight.jvmDriver)
                 implementation(Deps.KtorClient.jvm)
+
+                implementation(compose.desktop.common)
             }
         }
 
@@ -68,6 +70,8 @@ kotlin {
                 }
                 implementation(Deps.KOTLINX_SERIALISATION_JSON)
 
+                //for date and time
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
 
                 //dependency injection
                 with(Deps.Koin) {
@@ -96,6 +100,10 @@ kotlin {
                 implementation(Deps.SQLDelight.androidDriver)
                 implementation(Deps.KtorClient.android)
 
+                implementation("androidx.camera:camera-camera2:1.2.3")
+                implementation("androidx.camera:camera-lifecycle:1.2.3")
+                implementation("androidx.camera:camera-view:1.2.3")
+                implementation("com.google.accompanist:accompanist-permissions:0.30.1")
             }
         }
         val iosX64Main by getting
@@ -149,8 +157,8 @@ android {
         minSdk = (findProperty("android.minSdk") as String).toInt()
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlin {
         jvmToolchain(11)

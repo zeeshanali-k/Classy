@@ -6,6 +6,8 @@ import com.devscion.classy.domain.datasource.DiffusionImagesDataSource
 import com.devscion.classy.domain.model.DataResponse
 import com.devscion.classy.domain.model.GeneratedImage
 import com.devscion.classy.utils.Creds
+import com.devscion.classy.utils.PlatformStorableImage
+import com.devscion.classy.utils.convertToByteArray
 import com.devscion.classy.utils.isValidBase64Image
 import com.devscion.classy.utils.logAll
 import com.devscion.classy.utils.toAppDateFormat
@@ -27,7 +29,8 @@ import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
 class DiffusionImagesDataSourceImpl constructor(
-    private val classyDb: Classy
+    private val classyDb: Classy,
+    private val httpClient: HttpClient
 ) : DiffusionImagesDataSource {
     private val TAG = "DiffusionImagesDataSour"
 
@@ -35,12 +38,8 @@ class DiffusionImagesDataSourceImpl constructor(
     override suspend fun generateImage(prompt: String): Flow<DataResponse<String, String>> = flow {
         try {
 
-            HttpClient {
-                install(ContentNegotiation) {
-                    json()
-                }
-            }.post("https://api-inference.huggingface.co/models/devscion/pakhistoricalplaces") {
-                bearerAuth(Creds.BEARER_TOKEN)//TODO: REPLACE bearer token
+            httpClient.post("https://api-inference.huggingface.co/models/devscion/pakhistoricalplaces") {
+                bearerAuth(Creds.BEARER_TOKEN)
                 contentType(ContentType.Application.Json)
                 setBody(mapOf("inputs" to prompt))
             }
@@ -69,6 +68,32 @@ class DiffusionImagesDataSourceImpl constructor(
             emit(DataResponse.Error("Network Error generating image"))
         }
     }
+
+    override suspend fun generateText(platformStorableImage: PlatformStorableImage): Flow<DataResponse<String, String>> =
+        flow {
+            try {
+                httpClient.post("https://api-inference.huggingface.co/models/microsoft/git-large-coco") {
+                    bearerAuth(Creds.BEARER_TOKEN)
+                    contentType(ContentType.Application.Json)
+                    convertToByteArray(platformStorableImage)?.let {
+                        setBody(it)
+                    } ?: kotlin.run {
+                        emit(DataResponse.Error("System Error Occurred"))
+                        return@flow
+                    }
+                }
+                    .body<List<Map<String, String>>>()
+                    .let {
+                        emit(DataResponse.Success(it[0]["generated_text"]))
+                    }
+            } catch (e: Exception) {
+                e logAll TAG
+                emit(DataResponse.Error("Network Error annotating image"))
+            } catch (e: kotlinx.serialization.SerializationException) {
+                e logAll TAG
+                emit(DataResponse.Error("Network Error annotating image"))
+            }
+        }
 
     override suspend fun getAllImages(): Flow<DataResponse<List<Image>, String>> = flow {
         try {

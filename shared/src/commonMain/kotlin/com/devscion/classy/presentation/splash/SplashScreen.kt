@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
-import com.devscion.classy.presentation.home.HomeScreen
+import com.devscion.classy.presentation.menu.MenuScreen
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
@@ -24,7 +24,7 @@ class SplashScreen : Screen {
         val navigator = LocalNavigator.current
         LaunchedEffect(Unit) {
             delay(1000)
-            navigator!!.replace(HomeScreen())
+            navigator!!.replace(MenuScreen())
         }
         Box(
             Modifier.fillMaxSize(),

@@ -29,9 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.devscion.classy.db.Image
-import com.devscion.classy.presentation.home.HomeViewModel
 import com.devscion.classy.presentation.images_history.components.ImageDetailsDialog
 import com.devscion.classy.presentation.images_history.components.ImageListItem
+import com.devscion.classy.presentation.text_to_image.TextToImageViewModel
 import com.devscion.classy.ui.STANDARD_ICON_SIZE
 import com.devscion.classy.ui.STANDARD_PADDING
 import com.devscion.classy.ui.STANDARD_SPACING
@@ -41,7 +41,7 @@ import com.mohamedrejeb.calf.ui.progress.AdaptiveCircularProgressIndicator
 
 @Composable
 fun ImagesHistoryBottomSheetContent(
-    viewModel: HomeViewModel,
+    viewModel: TextToImageViewModel,
     onClosed: () -> Unit,
 ) {
 
