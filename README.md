@@ -1,14 +1,29 @@
 # Classy
-Text to image generation Android and iOS app using Compose Multiplatform with Clean Architecture.
+Text to image generation Android, iOS and Desktop app using Compose Multiplatform with Clean Architecture.
 
 <img src="/media/ss1.png" width="250" height="520"> <img src="/media/ss2.png" width="250" height="520">
-<img src="/media/ss3.png" width="250" height="520"> <img src="/media/ss4.png" width="250" height="520">
+<img src="/media/ss3.png" width="250" height="520"> 
+
+<h3>
+  
+Adaptive Bottom Sheet
+</h3>
+<p>
+  
+<img src="/media/ss4.png" width="250" height="520">
+<img src="/media/ss5.png" width="250" height="520">
+</p>
+
+<h3>
+  Desktop
+</h3>
+<img src="/media/desktop_ss.png" width="250" height="500">
 
 # Tech Stack
 
 <h5>As for Compose Multiplatform following libraries are used:</h5>
 
-- <a href="https://github.com/icerockdev/moko-mvvm">Moko</a> for ViewModels and Flows
+- <a href="https://github.com/icerockdev/moko-mvvm">Moko</a> for ViewModels
 - <a href="https://github.com/adrielcafe/voyager">Voyager</a> for navigation
 - <a href="https://ktor.io/docs/getting-started-ktor-client.html">Ktor</a> for HTTP communication
 - <a href="https://github.com/cashapp/sqldelight">Sql Delight</a> as local database for Images History
