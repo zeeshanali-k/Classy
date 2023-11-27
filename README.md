@@ -19,13 +19,6 @@ Adaptive Bottom Sheet
 </h3>
 <img src="/media/desktop_ss.png" width="250" height="500">
 
-<h3>
-  Image Annotation
-</h3>
-<video width="320" height="240" controls>
-  <source src="/media/latest_Rec.mp4" type="video/mp4">
-</video>
-
 # Tech Stack
 
 <h5>As for Compose Multiplatform following libraries are used:</h5>
