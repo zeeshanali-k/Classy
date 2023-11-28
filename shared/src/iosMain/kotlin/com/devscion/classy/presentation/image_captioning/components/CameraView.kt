@@ -17,6 +17,7 @@ import com.devscion.classy.domain.model.createCameraPictureData
 import com.devscion.classy.utils.CircularButton
 import com.devscion.classy.utils.IosStorableImage
 import com.devscion.classy.utils.PlatformStorableImage
+import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.CValue
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCAction
@@ -103,7 +104,7 @@ private fun BoxScope.AuthorizedCamera(
         discoverySessionWithDeviceTypes(
             deviceTypes = deviceTypes,
             mediaType = AVMediaTypeVideo,
-            position = AVCaptureDevicePositionFront,
+            position = AVCaptureDevicePositionBack,
         ).devices.firstOrNull() as? AVCaptureDevice
     }
     if (camera != null) {
@@ -118,7 +119,7 @@ private fun BoxScope.AuthorizedCamera(
     }
 }
 
-@OptIn(ExperimentalForeignApi::class)
+@OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
 @Composable
 private fun BoxScope.RealDeviceCamera(
     camera: AVCaptureDevice,

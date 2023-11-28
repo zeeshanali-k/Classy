@@ -54,7 +54,7 @@ class MenuScreen : Screen {
                     }
                     STANDARD_SPACING.Vertical()
                     MenuItem(
-                        title = "Image Annotation",
+                        title = "Image Captioning",
                         icon = "image_annotation.png"
                     ) {
                         navigator!!.push(ImageAnnotationScreen())
