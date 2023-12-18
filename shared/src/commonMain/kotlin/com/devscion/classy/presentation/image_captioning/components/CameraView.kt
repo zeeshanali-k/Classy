@@ -1,4 +1,4 @@
-package com.devscion.classy.presentation.image_annotation.components
+package com.devscion.classy.presentation.image_captioning.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

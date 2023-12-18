@@ -1,4 +1,4 @@
-package com.devscion.classy.presentation.image_annotation
+package com.devscion.classy.presentation.image_captioning
 
 data class ImageToTextState(
     val text: String? = null,

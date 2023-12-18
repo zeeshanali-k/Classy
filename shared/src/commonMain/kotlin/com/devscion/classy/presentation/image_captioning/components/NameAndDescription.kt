@@ -1,2 +1,2 @@
-package com.devscion.classy.presentation.image_annotation.components
+package com.devscion.classy.presentation.image_captioning.components
 

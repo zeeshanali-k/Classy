@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
-import com.devscion.classy.presentation.image_annotation.ImageAnnotationScreen
+import com.devscion.classy.presentation.image_captioning.ImageCaptioningScreen
 import com.devscion.classy.presentation.menu.components.MenuItem
 import com.devscion.classy.presentation.text_to_image.TextToImageScreen
 import com.devscion.classy.ui.STANDARD_SPACING
@@ -57,7 +57,7 @@ class MenuScreen : Screen {
                         title = "Image Captioning",
                         icon = "image_annotation.png"
                     ) {
-                        navigator!!.push(ImageAnnotationScreen())
+                        navigator!!.push(ImageCaptioningScreen())
                     }
                 }
 

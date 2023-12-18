@@ -1,4 +1,4 @@
-package com.devscion.classy.presentation.image_annotation.image_annotation_results
+package com.devscion.classy.presentation.image_captioning.image_annotation_results
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

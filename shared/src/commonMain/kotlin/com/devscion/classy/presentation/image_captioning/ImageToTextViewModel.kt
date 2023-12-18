@@ -1,7 +1,8 @@
-package com.devscion.classy.presentation.image_annotation
+package com.devscion.classy.presentation.image_captioning
 
 import com.devscion.classy.domain.datasource.DiffusionImagesDataSource
 import com.devscion.classy.domain.model.DataResponse
+import com.devscion.classy.presentation.image_captioning.ImageToTextState
 import com.devscion.classy.utils.PlatformStorableImage
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.Dispatchers

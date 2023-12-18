@@ -1,4 +1,5 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
     kotlin("plugin.serialization") version "1.9.0"
@@ -18,7 +19,16 @@ kotlin {
             kotlinOptions.jvmTarget = "17"
         }
     }
-
+//    @OptIn(ExperimentalWasmDsl::class)
+//    wasmJs {
+//        moduleName = "shared"
+//        browser {
+//            commonWebpackConfig {
+//                outputFileName = "composeApp.js"
+//            }
+//        }
+//        binaries.executable()
+//    }
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -123,6 +133,10 @@ kotlin {
     }
 }
 
+
+compose.experimental {
+    web.application {}
+}
 
 sqldelight {
     databases {
