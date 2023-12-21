@@ -5,8 +5,8 @@ import com.devscion.classy.domain.model.DataResponse
 import com.devscion.classy.presentation.images_history.ImagesHistoryState
 import com.devscion.classy.utils.logAll
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -28,7 +28,7 @@ class TextToImageViewModel constructor(
 
     @OptIn(ExperimentalEncodingApi::class)
     fun generateImage(prompt: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.Default).launch {
             _homeStateState.value = _homeStateState.value.copy(isLoading = true)
             diffusionImagesDataSource.generateImage(prompt).collectLatest {
                 if (it is DataResponse.Success) {
@@ -54,7 +54,7 @@ class TextToImageViewModel constructor(
 
     fun getImages() {
         _imagesStateState.value = ImagesHistoryState(isLoading = true)
-        viewModelScope.launch(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.Default).launch {
             diffusionImagesDataSource.getAllImages().collectLatest {
                 if (it is DataResponse.Success) {
                     _imagesStateState.value = ImagesHistoryState(

@@ -23,8 +23,7 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.List
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,13 +34,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.devscion.classy.presentation.images_history.ImagesHistoryBottomSheetContent
+import com.devscion.classy.data.datasource.DiffusionImagesDataSourceImpl
 import com.devscion.classy.ui.ClassicInputField
 import com.devscion.classy.ui.MEDIUM_SPACING
 import com.devscion.classy.ui.STANDARD_ICON_SIZE
@@ -52,20 +50,27 @@ import com.devscion.classy.utils.Vertical
 import com.devscion.classy.utils.rememberImageBitmap
 import com.devscion.typistcmp.Typist
 import com.devscion.typistcmp.TypistSpeed
-import com.mohamedrejeb.calf.ui.progress.AdaptiveCircularProgressIndicator
-import com.mohamedrejeb.calf.ui.sheet.AdaptiveBottomSheet
-import com.mohamedrejeb.calf.ui.sheet.rememberAdaptiveSheetState
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
-import org.koin.compose.koinInject
 
 
-@OptIn(ExperimentalResourceApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalResourceApi::class)
 @Composable
-fun TextToImageScreen(
+fun TextToImageScreenWeb(
     onPopped: () -> Unit
 ) {
-    val viewModel = koinInject<TextToImageViewModel>()
+    val viewModel = remember {
+        TextToImageViewModel(
+            DiffusionImagesDataSourceImpl(null, HttpClient {
+                install(ContentNegotiation) {
+                    json()
+                }
+            })
+        )
+    }
 //        val navigator = LocalNavigator.current
     val (image, isLoading, error) = viewModel.homeStateState.collectAsState().value
 
@@ -78,15 +83,6 @@ fun TextToImageScreen(
 
     val prompt = remember {
         mutableStateOf("")
-    }
-
-//    val navigator = LocalNavigator.current
-
-    val sheetState = rememberAdaptiveSheetState(
-        skipPartiallyExpanded = true
-    )
-    val isSheetVisible = remember {
-        mutableStateOf(false)
     }
 
     Column(
@@ -135,19 +131,6 @@ fun TextToImageScreen(
                             viewModel.generateImage(prompt.value)
                     }
             )
-
-            STANDARD_SPACING.Horizontal()
-            Image(
-                Icons.Rounded.List,
-                null,
-                colorFilter = ColorFilter.tint(Color.Red),
-                modifier = Modifier
-                    .size(30.dp)
-                    .clickable {
-                        viewModel.getImages()
-                        isSheetVisible.value = !isSheetVisible.value
-                    }
-            )
         }
         20.dp.Vertical()
         Column(
@@ -158,7 +141,7 @@ fun TextToImageScreen(
         ) {
 
             if (isLoading) {
-                AdaptiveCircularProgressIndicator()
+                CircularProgressIndicator()
                 STANDARD_SPACING.Vertical()
                 Typist(
                     "Generating Image...", textStyle = TextStyle(
@@ -174,7 +157,7 @@ fun TextToImageScreen(
                         bitmap = imageBitmap,
                         "Generated Image",
                         contentScale = ContentScale.FillBounds,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(0.5f)
                             .height(300.dp)
                     )
                 } else {
@@ -188,17 +171,6 @@ fun TextToImageScreen(
                     error,
                     color = Color.Red
                 )
-            }
-        }
-
-        if (isSheetVisible.value) {
-            AdaptiveBottomSheet(adaptiveSheetState = sheetState,
-                onDismissRequest = {
-                    isSheetVisible.value = false
-                }) {
-                ImagesHistoryBottomSheetContent(viewModel) {
-                    isSheetVisible.value = false
-                }
             }
         }
 

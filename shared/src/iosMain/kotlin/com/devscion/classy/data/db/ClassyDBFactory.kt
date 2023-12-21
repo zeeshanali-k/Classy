@@ -6,7 +6,7 @@ import com.devscion.classy.db.Classy
 
 
 actual object ClassyDBFactory {
-    actual fun createDriver(): SqlDriver {
+    actual fun createDriver(): SqlDriver? {
         return NativeSqliteDriver(Classy.Schema, "classy.db")
     }
 }

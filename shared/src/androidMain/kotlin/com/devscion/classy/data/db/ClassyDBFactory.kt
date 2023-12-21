@@ -7,7 +7,7 @@ import com.devscion.classy.db.Classy
 
 actual object ClassyDBFactory {
     lateinit var context : Context
-    actual fun createDriver(): SqlDriver {
+    actual fun createDriver(): SqlDriver? {
         return AndroidSqliteDriver(Classy.Schema, context, "classy.db")
     }
 }

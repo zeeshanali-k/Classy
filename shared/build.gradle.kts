@@ -1,5 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+
+//import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
     kotlin("plugin.serialization") version "1.9.0"
@@ -14,21 +15,12 @@ plugins {
 kotlin {
     androidTarget()
 
-    jvm("desktop") {
-        compilations.all {
-            kotlinOptions.jvmTarget = "17"
-        }
+    jvm("desktop")
+
+
+    js(IR) {
+        browser()
     }
-//    @OptIn(ExperimentalWasmDsl::class)
-//    wasmJs {
-//        moduleName = "shared"
-//        browser {
-//            commonWebpackConfig {
-//                outputFileName = "composeApp.js"
-//            }
-//        }
-//        binaries.executable()
-//    }
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -56,6 +48,11 @@ kotlin {
                 implementation(compose.desktop.common)
             }
         }
+        val jsMain by getting {
+            dependencies {
+                implementation(Deps.KtorClient.web)
+            }
+        }
 
         val commonMain by getting {
             dependencies {
@@ -69,6 +66,7 @@ kotlin {
                     api(ui)
                 }
 
+                implementation("co.touchlab:stately-common:2.0.5")
                 //Typist for typing animation
                 api(Deps.TYPIST_CMP)
 
@@ -81,7 +79,7 @@ kotlin {
                 implementation(Deps.KOTLINX_SERIALISATION_JSON)
 
                 //for date and time
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
 
                 //dependency injection
                 with(Deps.Koin) {
@@ -95,30 +93,31 @@ kotlin {
                     api(mvvmCompose)
                     api(mvvmFlowCompose)
                 }
-                with(Deps.Voyager) {
-                    implementation(navigator)
-                }
+//                with(Deps.Voyager) {
+//                    implementation(navigator)
+//                }
 
             }
         }
         val androidMain by getting {
             dependencies {
-                api("androidx.activity:activity-compose:1.7.2")
+                api("androidx.activity:activity-compose:1.8.2")
                 api("androidx.appcompat:appcompat:1.6.1")
-                api("androidx.core:core-ktx:1.10.1")
+                api("androidx.core:core-ktx:1.12.0")
 
                 implementation(Deps.SQLDelight.androidDriver)
                 implementation(Deps.KtorClient.android)
 
-                implementation("androidx.camera:camera-camera2:1.2.3")
-                implementation("androidx.camera:camera-lifecycle:1.2.3")
-                implementation("androidx.camera:camera-view:1.2.3")
+                implementation("androidx.camera:camera-camera2:1.3.1")
+                implementation("androidx.camera:camera-lifecycle:1.3.1")
+                implementation("androidx.camera:camera-view:1.3.1")
                 implementation("com.google.accompanist:accompanist-permissions:0.30.1")
             }
         }
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
+
         val iosMain by creating {
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
@@ -134,9 +133,9 @@ kotlin {
 }
 
 
-compose.experimental {
-    web.application {}
-}
+//compose.experimental {
+//    web.application {}
+//}
 
 sqldelight {
     databases {

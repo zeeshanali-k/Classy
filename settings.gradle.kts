@@ -2,6 +2,7 @@ rootProject.name = "MyApplication"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":androidApp")
+include(":web")
 include(":desktop")
 include(":shared")
 

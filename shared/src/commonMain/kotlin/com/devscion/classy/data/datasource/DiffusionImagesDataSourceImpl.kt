@@ -4,7 +4,6 @@ import com.devscion.classy.db.Classy
 import com.devscion.classy.db.Image
 import com.devscion.classy.domain.datasource.DiffusionImagesDataSource
 import com.devscion.classy.domain.model.DataResponse
-import com.devscion.classy.domain.model.GeneratedImage
 import com.devscion.classy.utils.Creds
 import com.devscion.classy.utils.PlatformStorableImage
 import com.devscion.classy.utils.convertToByteArray
@@ -13,15 +12,11 @@ import com.devscion.classy.utils.logAll
 import com.devscion.classy.utils.toAppDateFormat
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.bearerAuth
-import io.ktor.client.request.get
-import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.date.GMTDate
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -29,7 +24,7 @@ import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
 class DiffusionImagesDataSourceImpl constructor(
-    private val classyDb: Classy,
+    private val classyDb: Classy?,//SqlDelight doesn't support web as of now, so db will be null
     private val httpClient: HttpClient
 ) : DiffusionImagesDataSource {
     private val TAG = "DiffusionImagesDataSour"
@@ -49,14 +44,18 @@ class DiffusionImagesDataSourceImpl constructor(
                     //So You can adapt to your own backend which should returns base64 string
                     val base64Image = Base64.encode(it)
                     if (base64Image.isValidBase64Image()) {
-                        classyDb.imageQueries.insert(
-                            Image(
-                                imageBase64 = base64Image,
-                                date = GMTDate().toAppDateFormat(),
-                                prompt = prompt,
-                                id = -1
+                        try {
+                            classyDb?.imageQueries?.insert(
+                                Image(
+                                    imageBase64 = base64Image,
+                                    date = GMTDate().toAppDateFormat(),
+                                    prompt = prompt,
+                                    id = -1
+                                )
                             )
-                        )
+                        }catch (e:Exception){
+
+                        }
                     }
                     emit(DataResponse.Success(base64Image))
                 }
@@ -99,7 +98,7 @@ class DiffusionImagesDataSourceImpl constructor(
         try {
             emit(
                 DataResponse.Success(
-                    classyDb.imageQueries.getAllImages().executeAsList()
+                    classyDb?.imageQueries?.getAllImages()?.executeAsList() ?: listOf()
                 )
             )
         } catch (e: Exception) {

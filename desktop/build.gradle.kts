@@ -9,9 +9,9 @@ version = "1.0.0"
 kotlin {
     jvm {
         withJava()
-//        compilations.all {
-//            kotlinOptions.jvmTarget = "17"
-//        }
+        compilations.all {
+            kotlinOptions.jvmTarget = "17"
+        }
     }
 
     sourceSets {

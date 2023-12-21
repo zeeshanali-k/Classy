@@ -25,74 +25,73 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
 import com.devscion.classy.presentation.image_captioning.components.CameraView
-import com.devscion.classy.presentation.image_captioning.image_annotation_results.ImageAnnotationResultsScreen
 import com.devscion.classy.ui.SMALL_SPACING
 import com.devscion.classy.ui.STANDARD_ICON_SIZE
+import com.devscion.classy.utils.Screen
 import com.devscion.classy.utils.Vertical
 import com.devscion.typistcmp.Typist
 import com.devscion.typistcmp.TypistSpeed
 import com.mohamedrejeb.calf.ui.progress.AdaptiveCircularProgressIndicator
 import org.koin.compose.koinInject
 
-class ImageCaptioningScreen : Screen {
+@Composable
+fun ImageCaptioningScreen(
+    onScreenChanged: (Screen, String) -> Unit,
+    onPopped: () -> Unit,
+) {
 
-    @Composable
-    override fun Content() {
+    val viewModel = koinInject<ImageToTextViewModel>()
+    val state = viewModel.imageToTextState.collectAsState().value
+//    val navigator = LocalNavigator.current
+    if (state.text.isNullOrEmpty().not()) {
+//        navigator!!.push(ImageAnnotationResultsScreen(state.text!!))
+        onScreenChanged(Screen.ImageCaptioningResult, state.text!!)
+    }
+    Box(
+        Modifier.fillMaxSize()
+            .background(Color.White)
+            .padding(10.dp)
+            .windowInsetsPadding(WindowInsets.systemBars)
+            .windowInsetsPadding(WindowInsets.ime),
+        contentAlignment = Alignment.Center
+    ) {
 
-        val viewModel = koinInject<ImageToTextViewModel>()
-        val state = viewModel.imageToTextState.collectAsState().value
-        val navigator = LocalNavigator.current
-        if (state.text.isNullOrEmpty().not()) {
-            navigator!!.push(ImageAnnotationResultsScreen(state.text!!))
-        }
-        Box(
-            Modifier.fillMaxSize()
-                .background(Color.White)
-                .padding(10.dp)
-                .windowInsetsPadding(WindowInsets.systemBars)
-                .windowInsetsPadding(WindowInsets.ime),
-            contentAlignment = Alignment.Center
-        ) {
+        if (state.isLoading) {
+            Column(
+                Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                AdaptiveCircularProgressIndicator()
+                SMALL_SPACING.Vertical()
 
-            if (state.isLoading) {
-                Column(
-                    Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    AdaptiveCircularProgressIndicator()
-                    SMALL_SPACING.Vertical()
-
-                    Typist(
-                        "Annotating Image...",
-                        typistSpeed = TypistSpeed.FAST,
-                        textStyle = TextStyle(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            textAlign = TextAlign.Center
-                        ),
-                    )
-                }
-            } else {
-                CameraView(Modifier.fillMaxSize()) { _, image ->
-                    viewModel.generateText(image)
-                }
+                Typist(
+                    "Annotating Image...",
+                    typistSpeed = TypistSpeed.FAST,
+                    textStyle = TextStyle(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        textAlign = TextAlign.Center
+                    ),
+                )
             }
-
-            Icon(
-                Icons.Rounded.ArrowBack,
-                "",
-                tint = Color.White,
-                modifier = Modifier
-                    .size(STANDARD_ICON_SIZE)
-                    .align(Alignment.TopStart)
-                    .clickable {
-                        navigator?.pop()
-                    }
-            )
+        } else {
+            CameraView(Modifier.fillMaxSize()) { _, image ->
+                viewModel.generateText(image)
+            }
         }
+
+        Icon(
+            Icons.Rounded.ArrowBack,
+            "",
+            tint = Color.White,
+            modifier = Modifier
+                .size(STANDARD_ICON_SIZE)
+                .align(Alignment.TopStart)
+                .clickable {
+                    onPopped()
+                }
+        )
 
     }
 }

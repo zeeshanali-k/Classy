@@ -9,32 +9,26 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import com.devscion.classy.presentation.menu.MenuScreen
+import com.devscion.classy.utils.Screen
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
-class SplashScreen : Screen {
-
-    @OptIn(ExperimentalResourceApi::class)
-    @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.current
-        LaunchedEffect(Unit) {
-            delay(1000)
-            navigator!!.replace(MenuScreen())
-        }
-        Box(
-            Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painterResource("app_logo.jpg"),
-                contentDescription = "App Logo",
-                modifier = Modifier.size(200.dp)
-            )
-        }
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+fun SplashScreen(onScreenChanged : (Screen)->Unit) {
+    LaunchedEffect(Unit) {
+        delay(1000)
+        onScreenChanged(Screen.Menu)
+    }
+    Box(
+        Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painterResource("app_logo.jpg"),
+            contentDescription = "App Logo",
+            modifier = Modifier.size(200.dp)
+        )
     }
 }

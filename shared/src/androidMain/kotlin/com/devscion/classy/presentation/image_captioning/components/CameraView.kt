@@ -1,4 +1,4 @@
-package com.devscion.classy.presentation.image_annotation.components
+package com.devscion.classy.presentation.image_captioning.components
 
 import android.annotation.SuppressLint
 import androidx.camera.core.CameraSelector
