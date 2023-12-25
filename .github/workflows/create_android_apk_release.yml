@@ -1,7 +1,7 @@
 name: Upload APK in Releases
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "lorem" ]
 
 jobs:
   apk:
@@ -26,11 +26,8 @@ jobs:
       - name: Grant Permission to Execute
         run: chmod +x gradlew
         
-      - name: Build all build type and flavor permutations
-        run: ./gradlew assemble
-        
-      # - name: Build debug APK
-      #   run: bash ./gradlew :androidApp:assembleDebug --stacktrace
+      - name: Build debug APK
+        run: bash ./gradlew :androidApp:assembleDebug --stacktrace
         
       - name: Upload APK to Github Artifacts
         uses: actions/upload-artifact@v1
